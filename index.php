@@ -1,5 +1,5 @@
 <?php
-if(!$userdata = require("userdata.php")) header("Location: login.php");
+if(!$userdata = require("userdata.php")) {header("Location: login.php"); return;}
 ?>
 
 <!DOCTYPE html>

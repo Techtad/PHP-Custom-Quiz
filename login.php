@@ -1,11 +1,9 @@
 <?php
-if(require("userdata.php")) {
-    header("Location: /");
-    return;
-}
+if(require("userdata.php")) {header("Location: /"); return;}
 
 if(isset($_POST["username"]) && isset($_POST["password"])) {
-    if(!$conn = mysqli_connect("localhost", "root", "", "quizapp")) die("Nie udało się połączyć z bazą danych");
+    require("settings.php");
+    if(!$conn = db_connect()) die("Nie udało się połączyć z bazą danych");
     if(!$query = $conn->query(sprintf("SELECT `password` FROM `accounts` WHERE `username` LIKE '%s'", $_POST["username"]))) die("Nie udało się wykonać zapytania SQL");
 
     if($record = $query->fetch_row()) {
