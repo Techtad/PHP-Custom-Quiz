@@ -11,6 +11,11 @@ if(isset($_POST["username"]) && isset($_POST["password"])) {
     if($record = $query->fetch_row()) {
         if($record[0] == $_POST["password"]) {
             $token = bin2hex(openssl_random_pseudo_bytes(8));
+
+            // Create the file if it doesn't exist
+            $file = fopen("sessions.json", "w");
+            fclose($file);
+
             if($file = fopen("sessions.json", "r")) {
                 if(!$users = json_decode(fread($file, filesize("sessions.json")), true)) $users = [];
                 $users[$token] = ["username" => $_POST["username"], "expires" => time() + 3600*24];
