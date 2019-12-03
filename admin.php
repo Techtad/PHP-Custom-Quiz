@@ -37,7 +37,10 @@ if(!require("isadmin.php")) {header("Location: /"); return;}
         <table border="1">
             <tr>
                 <th>Pytanie</th>
-                <th>Odpowiedzi</th>
+                <th>A</th>
+                <th>B</th>
+                <th>C</th>
+                <th>D</th>
                 <th>Prawidłowa</th>
                 <th>-</th>
             </tr>
@@ -46,22 +49,32 @@ if(!require("isadmin.php")) {header("Location: /"); return;}
                 if(!$query = $conn->query(sprintf("SELECT * FROM `questions` WHERE `quiz_id` LIKE (SELECT `id` FROM `quizzes` WHERE `name` LIKE '%s')", $_POST["quiz_name"]))) die("Nie udało się wykonać zapytania SQL.");
 
                 while($record = $query->fetch_row()) {
-                    echo sprintf("<tr><td>%s</td>", $record[1]);
-                    echo "<td><table border='1'>";
-                    $answers = json_decode($record[2], true);
-                    foreach($answers as $letter => $answer) {
-                        echo sprintf("<tr><td>%s</td><td>%s</td></tr>", $letter, $answer);
+                    echo sprintf("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>", $record[1], $record[2], $record[3], $record[4], $record[5]);
+                    echo "<td><select name='%d_right'>";
+                    foreach(["A", "B", "C", "D"] as $letter) {
+                        echo "<option ";
+                        if($letter == $record[6]) echo "selected ";
+                        echo sprintf('value="%1$s">%1$s</option>', $letter);
                     }
-                    echo "</table></td>";
-                    echo sprintf("<td>%s</td><td></td></tr>", $record[3]);
+                    echo "</select></td></tr>";
                 }
-                $query->free();
+                $query->close();
                 $conn->close();
             ?>
             <tr>
                 <td><input type="text" name="new_question" id="new_question"></td>
-                <td><textarea name="new_answers" id="new_answers"></textarea></td>
-                <td><input type="text" name="new_right" id="new_right"></td>
+                <td><input type="text" name="new_a" id="new_a"></td>
+                <td><input type="text" name="new_b" id="new_b"></td>
+                <td><input type="text" name="new_c" id="new_c"></td>
+                <td><input type="text" name="new_d" id="new_d"></td>
+                <td>
+                    <select name="new_right" id="new_right">
+                        <option value="A" selected>A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                    </select>
+                </td>
                 <td><input type="submit" value="dodaj"></td>
             </tr>
         </table>

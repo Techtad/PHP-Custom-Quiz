@@ -4,10 +4,10 @@ if(require("userdata.php")) {header("Location: /"); return;}
 if(isset($_POST["username"]) && isset($_POST["password"])) {
     require("settings.php");
     if(!$conn = db_connect()) die("Nie udało się połączyć z bazą danych");
-    if(!$query = $conn->query(sprintf("SELECT `password` FROM `accounts` WHERE `username` LIKE '%s'", $_POST["username"]))) die("Nie udało się wykonać zapytania SQL");
+    if(!$query = $conn->query(sprintf("SELECT `password_hash` FROM `accounts` WHERE `username` LIKE '%s'", $_POST["username"]))) die("Nie udało się wykonać zapytania SQL");
 
     if($record = $query->fetch_row()) {
-        if($record[0] == $_POST["password"]) {
+        if(password_verify($_POST["password"], $record[0])) {
             $token = bin2hex(openssl_random_pseudo_bytes(8));
 
             // Create the file if it doesn't exist
@@ -25,7 +25,11 @@ if(isset($_POST["username"]) && isset($_POST["password"])) {
             setcookie("session", $token, time()+3600*24, "/");
             header("Location: /");
         } else $reason = "Błędne hasło.";
-    } else $reason = "Użytkownik o podanym loginie nie istnieje.";
+
+        $query->close();
+    } else $reason = "Użytkownik o podanym loginie nie istnieje. <input type='button' value='Zarejestruj automatycznie' onclick='autoRegister(\"" . $_POST["username"] . "\", \"" . $_POST["password"] . "\")'>";
+
+    $conn->close();
 }
 ?>
 
@@ -39,14 +43,29 @@ if(isset($_POST["username"]) && isset($_POST["password"])) {
     <link rel="stylesheet" href="css/style.css" />
     <script src="js/lib/jquery.min.js"></script>
     <script src="js/lib/utils.js"></script>
+    <script type="text/javascript">
+      function autoRegister(username, password) {
+        $.post("register.php", {"auto": true, "username": username, "password": password, "repeat_password": password}, function(data) {
+          let resp = JSON.parse(data);
+          console.log("autoRegister", resp);
+          if(resp.success) {
+            //window.location = window.location;
+            $("#username").val(username);
+            $("#password").val(password);
+            $("#login-form").submit();
+          } else
+            alert(resp.reason);
+        })
+      }
+    </script>
   </head>
 
   <body>
-    <form action="login.php" method="post">
+    <form action="login.php" method="post" id="login-form">
       <label for="username">Login:</label
-      ><input type="text" name="username" id="username" />
+      ><input type="text" name="username" id="username" maxlength="36"/>
       <label for="password">Hasło:</label
-      ><input type="text" name="password" id="password" />
+      ><input type="password" name="password" id="password" maxlength="72"/>
       <input type="submit" value="Zaloguj" />
       <h1 style="color: red"><?php if(isset($reason)) echo $reason; ?></h1>
     </form>
