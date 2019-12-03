@@ -1,7 +1,7 @@
 <?php
-if($file = fopen("sessions.json", "r")) {
+if($file = fopen($_SERVER["DOCUMENT_ROOT"] . "/sessions.json", "r")) {
     $removed = 0;
-    if($users = json_decode(fread($file, filesize("sessions.json")), true)) {
+    if($users = json_decode(fread($file, filesize($_SERVER["DOCUMENT_ROOT"] . "/sessions.json")), true)) {
         
         foreach($users as $k => $usr) {
             if($usr["expires"] < time() || isset($_GET["purge"])) {
@@ -11,7 +11,7 @@ if($file = fopen("sessions.json", "r")) {
         }
 
         fclose($file);
-        if($file = fopen("sessions.json", "w")) {
+        if($file = fopen($_SERVER["DOCUMENT_ROOT"] . "/sessions.json", "w")) {
             fwrite($file, json_encode($users));
             fclose($file);
         } else die("Nie udało się otworzyć pliku z sesjami.");

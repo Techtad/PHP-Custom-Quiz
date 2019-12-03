@@ -1,5 +1,5 @@
 <?php
-if(!$userdata = require("userdata.php")) {header("Location: login.php"); return;}
+if(!$userdata = require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/userdata.php")) {header("Location: /login.php"); return;}
 ?>
 
 <!DOCTYPE html>
@@ -17,8 +17,8 @@ if(!$userdata = require("userdata.php")) {header("Location: login.php"); return;
 
 <body>
     <h1>Zalogowano jako: <span id="username"><?php echo $userdata["username"]; ?></span></h1>
-    <h2><?php echo (require("isadmin.php")) ? "Jesteś administratorem." : "Nie masz uprawnień administratora." ?></h2>
-    <input type="button" id="btnLogOut" value="Wyloguj" onclick="$.post('logout.php'); window.location = '/'"/>
+    <h2><?php echo (require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/isadmin.php")) ? "Jesteś administratorem. <a href='admin.php'>Do panelu</a>" : "Nie masz uprawnień administratora." ?></h2>
+    <input type="button" id="btnLogOut" value="Wyloguj" onclick="window.location = 'php/auth/logout.php'"/>
 </body>
 
 </html>
