@@ -16,19 +16,13 @@ if(!require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/isadmin.php")) {header("Locat
     <script src="js/admin.js"></script>
 </head>
 <body>
-    <select name="select-quiz" id="select-quiz">
-        <?php
-            require_once($_SERVER["DOCUMENT_ROOT"] . "/php/settings.php");
-            if(!$conn = db_connect()) die("Nie udało się połączyć z bazą danych.");
-            if(!$query = $conn->query("SELECT `name`, `id` FROM `quizzes`")) die("Nie udało się wykonać zapytania SQL.");
-
-            while($record = $query->fetch_row()) {
-                echo sprintf('<option value=\'%2$d\'>%1$s</option>', $record[0], $record[1]);
-            }
-            $query->free();
-            $conn->close();
-        ?>
-    </select>
+    <div id="quiz-table" currentQuiz="<?php
+        require_once $_SERVER["DOCUMENT_ROOT"] . "/php/settings.php";
+        if(!$conn = db_connect()) die("Nie udało się połączyć z bazą danych.");
+        if(!$query = $conn->query("SELECT `id` FROM `quizzes` LIMIT 1")) die("Nie udało się wykonać zapytania SQL.");
+        if($res = $query->fetch_row()) echo $res[0];
+        else echo null;
+    ?>"></div>
     <div id="question-table"></div>
 </body>
 </html>
