@@ -2,6 +2,6 @@ table {
     text-align: center;
 }
 
-table table {
-    margin: auto;
+.addition-row {
+    background-color: wheat;
 }
