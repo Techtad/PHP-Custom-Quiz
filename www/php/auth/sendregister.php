@@ -17,6 +17,11 @@ function register() {
         return false;
     }
 
+    if(!ctype_alnum($user)) {
+        $_SESSION["register-fail"] = "Login nie może zawierać znaków specjalnych.";
+        return false;
+    }
+
     require_once($_SERVER["DOCUMENT_ROOT"] . "/php/settings.php");
     if(!$conn = db_connect()) die("Nie udało się połączyć z bazą danych");
     if(!$query = $conn->query(sprintf("SELECT `username` FROM `accounts` WHERE `username` LIKE '%s'", $_POST["username"]))) die("Nie udało się wykonać zapytania SQL");
