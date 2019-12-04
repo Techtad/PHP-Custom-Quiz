@@ -8,6 +8,10 @@ if(isset($_POST["question_id"])) {
     if(!$conn = db_connect()) die("Nie udało się połączyć z bazą danych.");
     if($conn->connect_error) die("Nie udało się połączyć z bazą danych.");
 
-    if(!$query = $conn->query(sprintf("DELETE FROM `questions` WHERE `id` LIKE '%s'", $id))) die($conn->error);
+    $conn->begin_transaction();
+        $conn->query(sprintf("DELETE FROM `questions` WHERE `id` LIKE '%s'", $id));
+        $conn->query(sprintf("DELETE FROM `scores` WHERE `question_id` LIKE '%s'", $id));
+    $conn->commit();
+
     $conn->close();
 } else header("Location: /admin.php");

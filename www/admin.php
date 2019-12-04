@@ -22,10 +22,8 @@ if(!require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/isadmin.php")) {header("Locat
             if(!$conn = db_connect()) die("Nie udało się połączyć z bazą danych.");
             if(!$query = $conn->query("SELECT `name`, `id` FROM `quizzes`")) die("Nie udało się wykonać zapytania SQL.");
 
-            $first = true;
             while($record = $query->fetch_row()) {
-                echo sprintf('<option%3$s value=\'%2$d\'>%1$s</option>', $record[0], $record[1], $first ? " selected" : "");
-                $first = false;
+                echo sprintf('<option value=\'%2$d\'>%1$s</option>', $record[0], $record[1]);
             }
             $query->free();
             $conn->close();
