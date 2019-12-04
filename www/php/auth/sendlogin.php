@@ -11,7 +11,7 @@ if(isset($_POST["username"], $_POST["password"])) {
         if(password_verify($_POST["password"], $record[0])) {
             $token = bin2hex(openssl_random_pseudo_bytes(8));
 
-            // Create the file if it doesn't exist
+            // Tworzę plik w przypadku gdy nie istnieje
             $file = fopen($_SERVER["DOCUMENT_ROOT"] . "/sessions.json", "w");
             fclose($file);
 

@@ -12,7 +12,12 @@ function loadTables() {
       $("#question-table").html(data);
     });
   }
+  $.get("php/admin/usertable.php", function(data) {
+    $("#user-table").html(data);
+  });
 }
+
+// Pytania
 
 function addQuestion() {
   $.post(
@@ -53,6 +58,8 @@ function editQuestion(questionId) {
 }
 
 function deleteQuestion(questionId) {
+  if (!confirm("Czy na pewno chcesz usunąć to pytanie?")) return;
+
   $.post(
     "php/admin/deletequestion.php",
     {
@@ -104,6 +111,8 @@ function addValChanged(event) {
   else $("#add_question").attr("disabled", true);
 }
 
+// Quizy
+
 function onQuizEditValChanged(event) {
   event.target.style.backgroundColor =
     event.target.value == event.target.getAttribute("oldval")
@@ -143,6 +152,8 @@ function editQuiz(id) {
 }
 
 function deleteQuiz(id) {
+  if (!confirm("Czy na pewno chcesz usunąć ten test?")) return;
+
   $.post(
     "php/admin/deletequiz.php",
     {
@@ -171,6 +182,61 @@ function addQuiz() {
     },
     function(data) {
       console.log("addquiz", data);
+      loadTables();
+    }
+  );
+}
+
+// Użytkownicy
+
+function newPasswordChanged(event) {
+  let username = event.target.id.split("_")[0];
+  if (event.target.value.length >= 6)
+    $(`#${username}_change_password`).removeAttr("disabled");
+  else $(`#${username}_change_password`).attr("disabled", true);
+}
+
+function changePassword(event) {
+  let username = event.target.id.split("_")[0];
+  $.post(
+    "php/admin/changepassword.php",
+    {
+      username: username,
+      new_password: $(`#${username}_newpassword`).val()
+    },
+    function(data) {
+      console.log("changepassword", username, data);
+      loadTables();
+    }
+  );
+}
+
+function toggleAdmin(event) {
+  let username = event.target.id.split("_")[0];
+  $.post(
+    "php/admin/toggleadmin.php",
+    {
+      username: username
+    },
+    function(data) {
+      console.log("toggleadmin", username, data);
+      loadTables();
+    }
+  );
+}
+
+function deleteUser(event) {
+  let username = event.target.id.split("_")[0];
+  if (!confirm("Czy na pewno chcesz usunąć użytkownika " + username + "?"))
+    return;
+
+  $.post(
+    "php/admin/deleteuser.php",
+    {
+      username: username
+    },
+    function(data) {
+      console.log("deleteuser", username, data);
       loadTables();
     }
   );

@@ -24,5 +24,6 @@ if(!require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/isadmin.php")) {header("Locat
         else echo null;
     ?>"></div>
     <div id="question-table"></div>
+    <div id="user-table"></div>
 </body>
 </html>
