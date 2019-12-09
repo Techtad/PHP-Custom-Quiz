@@ -20,7 +20,9 @@ if(!require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/isadmin.php")) {header("Locat
             echo sprintf('<td><input type="text" id="quiz_%1$d_name" value="%2$s" oldval="%2$s" oninput="onQuizEditValChanged(event)"></td>', $record["id"], $record["name"]);
             echo sprintf('<td><input type="text" id="quiz_%1$d_desc" value="%2$s" oldval="%2$s" oninput="onQuizEditValChanged(event)"></td>', $record["id"], $record["description"]);
             echo sprintf("<td>%d</td>", $record["count"]);
-            echo sprintf("<td><input type='button' value='ZAPISZ' id='quiz_%d_edit' onclick='editQuiz(%d)' disabled></td>", $record["id"], $record["id"]);
+            echo sprintf("<td><input type='button' value='ZAPISZ' id='quiz_%d_edit' onclick='editQuiz(%d)' disabled>", $record["id"], $record["id"]);
+            echo sprintf("<td><input type='button' value='ANULUJ' id='quiz_%d_cancel' onclick='loadQuizTable()' disabled>", $record["id"], $record["id"]);
+            echo "</td>";
             echo sprintf("<td><input type='button' value='USUŃ' id='quiz_%d_delete' onclick='deleteQuiz(%d)'", $record["id"], $record["id"]);
             if(isset($_GET["selected"]) && $_GET["selected"] == $record["id"]) echo(" disabled ");
             echo "></td>";

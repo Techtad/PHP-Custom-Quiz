@@ -1,17 +1,26 @@
 window.addEventListener("DOMContentLoaded", function(event) {
-  loadTables();
+  loadQuizTable();
+  loadQuestionTable();
+  loadUserTable();
 });
 
-function loadTables() {
+function loadQuizTable() {
   let quizId = $("#quiz-table").attr("currentQuiz");
   $.get("php/admin/quiztable.php?selected=" + quizId, function(data) {
     $("#quiz-table").html(data);
   });
+}
+
+function loadQuestionTable() {
+  let quizId = $("#quiz-table").attr("currentQuiz");
   if (quizId) {
     $.get("php/admin/questiontable.php?quiz_id=" + quizId, function(data) {
       $("#question-table").html(data);
     });
   }
+}
+
+function loadUserTable() {
   $.get("php/admin/usertable.php", function(data) {
     $("#user-table").html(data);
   });
@@ -33,7 +42,7 @@ function addQuestion() {
     },
     function(data) {
       console.log("addquestion", data);
-      loadTables();
+      loadQuestionTable();
     }
   );
 }
@@ -52,7 +61,7 @@ function editQuestion(questionId) {
     },
     function(data) {
       console.log("modifyquestion", questionId, data);
-      loadTables();
+      loadQuestionTable();
     }
   );
 }
@@ -67,7 +76,7 @@ function deleteQuestion(questionId) {
     },
     function(data) {
       console.log("deletequestion", questionId, data);
-      loadTables();
+      loadQuestionTable();
     }
   );
 }
@@ -91,8 +100,13 @@ function editValChanged(event) {
     let el = $(`#${questionId}_${col}`);
     if (el.val() != el.attr("oldval")) rowChanged = true;
   }
-  if (rowChanged) $(`#${questionId}_submit`).removeAttr("disabled");
-  else $(`#${questionId}_submit`).attr("disabled", true);
+  if (rowChanged) {
+    $(`#${questionId}_submit`).removeAttr("disabled");
+    $(`#${questionId}_cancel`).removeAttr("disabled");
+  } else {
+    $(`#${questionId}_submit`).attr("disabled", true);
+    $(`#${questionId}_cancel`).attr("disabled", true);
+  }
 }
 
 function addValChanged(event) {
@@ -124,8 +138,13 @@ function onQuizEditValChanged(event) {
   let desc = $(`#quiz_${quizId}_desc`);
   let rowChanged =
     name.val() != name.attr("oldval") || desc.val() != desc.attr("oldval");
-  if (rowChanged) $(`#quiz_${quizId}_edit`).removeAttr("disabled");
-  else $(`#quiz_${quizId}_edit`).attr("disabled", true);
+  if (rowChanged) {
+    $(`#quiz_${quizId}_edit`).removeAttr("disabled");
+    $(`#quiz_${quizId}_cancel`).removeAttr("disabled");
+  } else {
+    $(`#quiz_${quizId}_edit`).attr("disabled", true);
+    $(`#quiz_${quizId}_cancel`).attr("disabled", true);
+  }
 }
 
 function quizAddChanged(event) {
@@ -146,7 +165,7 @@ function editQuiz(id) {
     },
     function(data) {
       console.log("modifyquiz", id, data);
-      loadTables();
+      loadQuizTable();
     }
   );
 }
@@ -161,7 +180,7 @@ function deleteQuiz(id) {
     },
     function(data) {
       console.log("deletequiz", id, data);
-      loadTables();
+      loadQuizTable();
       if ($("#quiz-table").attr("currentQuiz") == id)
         $("#quiz-table").attr("currentQuiz", null);
     }
@@ -170,7 +189,8 @@ function deleteQuiz(id) {
 
 function selectQuiz(id) {
   $("#quiz-table").attr("currentQuiz", id);
-  loadTables();
+  loadQuizTable();
+  loadQuestionTable();
 }
 
 function addQuiz() {
@@ -182,7 +202,7 @@ function addQuiz() {
     },
     function(data) {
       console.log("addquiz", data);
-      loadTables();
+      loadQuizTable();
     }
   );
 }
@@ -206,7 +226,7 @@ function changePassword(event) {
     },
     function(data) {
       console.log("changepassword", username, data);
-      loadTables();
+      loadUserTable();
     }
   );
 }
@@ -220,7 +240,7 @@ function toggleAdmin(event) {
     },
     function(data) {
       console.log("toggleadmin", username, data);
-      loadTables();
+      loadUserTable();
     }
   );
 }
@@ -237,7 +257,7 @@ function deleteUser(event) {
     },
     function(data) {
       console.log("deleteuser", username, data);
-      loadTables();
+      loadUserTable();
     }
   );
 }

@@ -31,7 +31,9 @@ if(isset($_GET["quiz_id"])) { ?>
                 echo sprintf(' value="%1$s">%1$s</option>', $letter);
             }
             echo "</select></td>";
-            echo sprintf("<td><input id='%d_submit' onclick='editQuestion(%d)' type='button' value='ZAPISZ' disabled></td>", $record["id"], $record["id"]);
+            echo sprintf("<td><input id='%d_submit' onclick='editQuestion(%d)' type='button' value='ZAPISZ' disabled>", $record["id"], $record["id"]);
+            echo sprintf("<td><input id='%d_cancel' onclick='loadQuestionTable()' type='button' value='ANULUJ' disabled>", $record["id"], $record["id"]);
+            echo "</td>";
             echo sprintf("<td><input id='%d_delete' onclick='deleteQuestion(%d)' type='button' value='USUŃ'></td></tr>", $record["id"], $record["id"]);
         }
         $query->close();
