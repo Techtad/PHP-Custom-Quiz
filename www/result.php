@@ -17,6 +17,8 @@ if(!$quiz = $query->fetch_assoc()) die("Nie ma takiego quizu:" . $take["quiz_id"
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Wyniki: <?php echo $quiz["name"] ?></title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/result.css">
 </head>
 <body>
     <h1>Twój wynik: <?php echo $take["correct"] . "/10 (" . ($take["correct"] * 10) . "%)" ?></h1>
@@ -26,7 +28,15 @@ if(!$quiz = $query->fetch_assoc()) die("Nie ma takiego quizu:" . $take["quiz_id"
             <th>Twoja odpowiedź</th>
             <th>Poprawna odpowiedź</th>
         </tr>
+        <?php
+         if(!$query = $conn->query("SELECT * FROM `scores` WHERE `take_id` = " . $_GET["take"])) die($conn->error);
+         while($score = $query->fetch_assoc()) {
+            if(!$query2 = $conn->query("SELECT * FROM `questions` WHERE `id` = " . $score["question_id"])) die($conn->error);
+            if(!$question = $query2->fetch_assoc()) die("Błędne id pytania.");
 
+            echo sprintf('<tr class="' . (($score["correct"] == 1) ? 'correct' : 'wrong') . '"><td>%s</td><td>%s</td><td>%s</td></tr>', $question["question"], $score["answer"], $question["right_answer"]);
+         }
+        ?>
     </table>
 </body>
 </html>
