@@ -21,7 +21,7 @@ if(!require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/isadmin.php")) {header("Locat
             echo sprintf('<td><input type="text" id="quiz_%1$d_desc" value="%2$s" oldval="%2$s" oninput="onQuizEditValChanged(event)"></td>', $record["id"], $record["description"]);
             echo sprintf("<td>%d</td>", $record["count"]);
             echo sprintf("<td><input type='button' value='ZAPISZ' id='quiz_%d_edit' onclick='editQuiz(%d)' disabled>", $record["id"], $record["id"]);
-            echo sprintf("<td><input type='button' value='ANULUJ' id='quiz_%d_cancel' onclick='loadQuizTable()' disabled>", $record["id"], $record["id"]);
+            echo sprintf("<input type='button' value='ANULUJ' id='quiz_%d_cancel' onclick='loadQuizTable()' disabled>", $record["id"], $record["id"]);
             echo "</td>";
             echo sprintf("<td><input type='button' value='USUŃ' id='quiz_%d_delete' onclick='deleteQuiz(%d)'", $record["id"], $record["id"]);
             if(isset($_GET["selected"]) && $_GET["selected"] == $record["id"]) echo(" disabled ");
@@ -37,7 +37,10 @@ if(!require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/isadmin.php")) {header("Locat
         <td><input class="addition-row" type="text" name="new_quiz_name" id="new_quiz_name" oninput="quizAddChanged(event)"></td>
         <td><input class="addition-row" type="text" name="new_quiz_desc" id="new_quiz_desc" oninput="quizAddChanged(event)"></td>
         <td>0</td>
-        <td><input class="addition-row" id="add_quiz" type="button" value="WSTAW" disabled onclick="addQuiz()"></td>
+        <td>
+            <input class="addition-row" id="add_quiz" type="button" value="WSTAW" disabled onclick="addQuiz()">
+            <input class="addition-row" id="cancel_add_quiz" type="button" value="ANULUJ" disabled onclick="loadQuizTable()">
+        </td>
         <td>-</td>
         <td>-</td>
     </tr>

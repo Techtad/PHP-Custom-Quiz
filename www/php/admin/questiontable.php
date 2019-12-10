@@ -32,7 +32,7 @@ if(isset($_GET["quiz_id"])) { ?>
             }
             echo "</select></td>";
             echo sprintf("<td><input id='%d_submit' onclick='editQuestion(%d)' type='button' value='ZAPISZ' disabled>", $record["id"], $record["id"]);
-            echo sprintf("<td><input id='%d_cancel' onclick='loadQuestionTable()' type='button' value='ANULUJ' disabled>", $record["id"], $record["id"]);
+            echo sprintf("<input id='%d_cancel' onclick='loadQuestionTable()' type='button' value='ANULUJ' disabled>", $record["id"], $record["id"]);
             echo "</td>";
             echo sprintf("<td><input id='%d_delete' onclick='deleteQuestion(%d)' type='button' value='USUŃ'></td></tr>", $record["id"], $record["id"]);
         }
@@ -46,14 +46,17 @@ if(isset($_GET["quiz_id"])) { ?>
         <td><input class="addition-row" type="text" name="new_answer_c" id="new_answer_c" oninput="addValChanged(event)"></td>
         <td><input class="addition-row" type="text" name="newanswer__d" id="new_answer_d" oninput="addValChanged(event)"></td>
         <td>
-            <select class="addition-row" name="new_right_answer" id="new_right_answer">
+            <select class="addition-row" name="new_right_answer" id="new_right_answer" oninput="addValChanged(event)">
                 <option value="A" selected>A</option>
                 <option value="B">B</option>
                 <option value="C">C</option>
                 <option value="D">D</option>
             </select>
         </td>
-        <td><input class="addition-row" id="add_question" type="button" value="WSTAW" disabled onclick="addQuestion()"></td>
+        <td>
+            <input class="addition-row" id="add_question" type="button" value="WSTAW" disabled onclick="addQuestion()">
+            <input class="addition-row" id="add_question_cancel" type="button" value="ANULUJ" disabled onclick="loadQuestionTable()">
+        </td>
         <td>-</td>
     </tr>
 </table>

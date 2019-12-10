@@ -1,2 +1,2 @@
 <?php
-echo substr("abcde", 0, -2);
+print_r($_POST);

@@ -10,6 +10,7 @@ if(isset($_POST["quiz_id"])) {
 
     $conn->begin_transaction();
         $conn->query(sprintf("DELETE FROM `quizzes` WHERE `id` LIKE %d", $id));
+        $conn->query(sprintf("DELETE FROM `takes` WHERE `quiz_id` LIKE '%d'", $row[0]));
         $res = $conn->query(sprintf("SELECT `id` FROM `questions` WHERE `quiz_id` LIKE %d", $id));
         while($row = $res->fetch_row()) {
             $conn->query(sprintf("DELETE FROM `questions` WHERE `id` LIKE '%d'", $row[0]));

@@ -83,9 +83,7 @@ function deleteQuestion(questionId) {
 
 function editValChanged(event) {
   event.target.style.backgroundColor =
-    event.target.value == event.target.getAttribute("oldval")
-      ? "white"
-      : "yellow";
+    event.target.value == event.target.getAttribute("oldval") ? null : "yellow";
 
   let questionId = event.target.id.split("_")[0];
   let rowChanged = false;
@@ -103,26 +101,58 @@ function editValChanged(event) {
   if (rowChanged) {
     $(`#${questionId}_submit`).removeAttr("disabled");
     $(`#${questionId}_cancel`).removeAttr("disabled");
+    $("#question-table input, select")
+      .filter((i, e) => {
+        return e.id.split("_")[0] != questionId;
+      })
+      .attr("disabled", true);
   } else {
     $(`#${questionId}_submit`).attr("disabled", true);
     $(`#${questionId}_cancel`).attr("disabled", true);
+    $("#question-table input, select")
+      .filter((i, e) => {
+        return !["submit", "cancel"].includes(e.id.split("_")[1]);
+      })
+      .removeAttr("disabled");
   }
 }
 
 function addValChanged(event) {
   let allSet = true;
+  let anySet = false;
   for (let col of [
     "question",
     "answer_a",
     "answer_b",
     "answer_c",
-    "answer_d"
+    "answer_d",
+    "right_answer"
   ]) {
     if ($(`#new_${col}`).val().length == 0) allSet = false;
+    else if (col != "right_answer") anySet = true;
   }
-  if (allSet && $("#quiz-table").attr("currentQuiz"))
+
+  if (allSet && $("#quiz-table").attr("currentQuiz")) {
     $("#add_question").removeAttr("disabled");
-  else $("#add_question").attr("disabled", true);
+  } else {
+    $("#add_question").attr("disabled", true);
+  }
+
+  if (anySet && $("#quiz-table").attr("currentQuiz")) {
+    $("#add_question_cancel").removeAttr("disabled");
+    $("#question-table input, select")
+      .filter((i, e) => {
+        return !["add", "new"].includes(e.id.split("_")[0]);
+      })
+      .attr("disabled", true);
+  } else {
+    $("#add_question_cancel").attr("disabled", true);
+    $("#question-table input, select")
+      .filter((i, e) => {
+        return !["submit", "cancel"].includes(e.id.split("_")[1]);
+      })
+      .removeAttr("disabled");
+  }
 }
 
 // Quizy
@@ -151,8 +181,17 @@ function quizAddChanged(event) {
   let name = $(`#new_quiz_name`);
   let desc = $(`#new_quiz_desc`);
   let allSet = name.val().length > 0 && desc.val().length > 0;
-  if (allSet) $("#add_quiz").removeAttr("disabled");
-  else $("#add_quiz").attr("disabled", true);
+  let anySet = name.val().length > 0 || desc.val().length > 0;
+  if (allSet) {
+    $("#add_quiz").removeAttr("disabled");
+  } else {
+    $("#add_quiz").attr("disabled", true);
+  }
+  if (anySet) {
+    $("#cancel_add_quiz").removeAttr("disabled");
+  } else {
+    $("#cancel_add_quiz").attr("disabled", true);
+  }
 }
 
 function editQuiz(id) {
