@@ -6,5 +6,5 @@ SELECT
     (SUM(`correct`) / COUNT(*) * 100) as `percent`
 FROM `scores`
 GROUP BY `question_id`
-ORDER BY `wrong` DESC
+ORDER BY `percent` ASC
 LIMIT 10 OFFSET %d;
