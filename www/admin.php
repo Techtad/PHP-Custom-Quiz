@@ -1,4 +1,5 @@
 <?php
+if(!$userdata = require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/userdata.php")) {header("Location: /login.php"); return;}
 if(!require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/isadmin.php")) {header("Location: /"); return;}
 ?>
 
@@ -16,6 +17,16 @@ if(!require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/isadmin.php")) {header("Locat
     <script src="js/admin.js"></script>
 </head>
 <body>
+    <header>
+        <h1>Testy ABCD</h1>
+        <nav>
+            <div class="menuBtn" id="btnMainPage" onclick="window.location = '/'">Strona główna</div>
+
+            <div class="menuBtn" id="btnLogOut" onclick="window.location = 'php/auth/logout.php'">Wyloguj</div>
+            <div class="menuBtn" id="btnChangePassword" onclick="window.location = 'changepassword.php'">Zmień hasło</div>
+            <div class="menuInfo" id="userInfo">Zalogowano jako: <span id="username-display"><?php echo $userdata["username"]; ?></div>
+        </nav>
+    </header>
     <div id="quiz-table" currentQuiz="<?php
         require_once $_SERVER["DOCUMENT_ROOT"] . "/php/settings.php";
         if(!$conn = db_connect()) die("Nie udało się połączyć z bazą danych.");

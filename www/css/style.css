@@ -1,7 +1,75 @@
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
 body {
     background-color: azure;
+}
+
+header {
+    height: 200px;
+    line-height: 160px;
+    background-color: cornflowerblue;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 64px;
+    font-weight: bold;
+    user-select: none;
+}
+
+header nav {
+    height: 40px;
+    bottom: 0;
+    background-color: blue;
+}
+
+.menuBtn {
+    height: 40px;
+    line-height: 40px;
+    background-color: cadetblue;
+    color: white;
+    padding: 0 10px 0 10px;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    user-select: none;
+    cursor: pointer;
+}
+
+.menuBtn:hover {
+    background-color: turquoise;
+}
+
+.menuBtn:active {
+    background-color: teal;
+}
+
+.menuInfo {
+    height: 40px;
+    line-height: 40px;
+    background-color: cadetblue;
+    color: white;
+    padding: 0 10px 0 10px;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+}
+
+#btnMainPage {
+    float: left;
+}
+
+#userInfo, #btnChangePassword, #btnLogOut {
+    float: right;
+}
+
+#username-display {
+    color: orange;
+}
+
+table {
+    margin: auto;
+    text-align: center;
 }

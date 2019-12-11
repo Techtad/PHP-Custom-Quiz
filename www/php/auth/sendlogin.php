@@ -31,7 +31,7 @@ if(isset($_POST["username"], $_POST["password"])) {
         } else $_SESSION["login-fail"] = "Błędne hasło.";
 
         $query->close();
-    } else $_SESSION["login-fail"] = "Użytkownik o podanym loginie nie istnieje. <input type='button' value='Zarejestruj automatycznie' onclick='autoRegister(\"" . $_POST["username"] . "\", \"" . $_POST["password"] . "\")'>";
+    } else $_SESSION["login-fail"] = "Użytkownik o podanym loginie nie istnieje.<br><input type='button' value='Zarejestruj automatycznie' onclick='autoRegister(\"" . $_POST["username"] . "\", \"" . $_POST["password"] . "\")'>";
 
     $conn->close();
 }

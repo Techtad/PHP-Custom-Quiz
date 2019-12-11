@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Logowanie</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/login.css">
     <script src="js/lib/jquery.min.js"></script>
     <script src="js/lib/utils.js"></script>
     <script type="text/javascript">
@@ -28,13 +29,27 @@
   </head>
 
   <body>
-    <form action="php/auth/sendlogin.php" method="post" id="login-form">
-      <label for="username">Login:</label
-      ><input type="text" name="username" id="username" maxlength="36"/>
-      <label for="password">Hasło:</label
-      ><input type="password" name="password" id="password" maxlength="72"/>
-      <input type="submit" value="Zaloguj" />
-      <h1 style="color: red"><?php if(isset($_SESSION["login-fail"])) {echo $_SESSION["login-fail"]; unset($_SESSION["login-fail"]);} ?></h1>
-    </form>
+    <div id="container">
+      <div id="content">
+        <form action="php/auth/sendlogin.php" method="post" id="login-form">
+          <div class="row">
+            <label for="username">Login:</label>
+            <input type="text" name="username" id="username" maxlength="36"/>
+          </div>
+          <div class="row">
+            <label for="password">Hasło:</label>
+            <input type="password" name="password" id="password" maxlength="72"/>
+          </div>
+          <div class="row" style="text-align: center">
+            <input type="submit" value="Zaloguj"/>
+          </div>
+        </form>
+        <div class="row">
+          <h1 style="color: red; font-size: 12px"><?php if(isset($_SESSION["login-fail"])) {echo $_SESSION["login-fail"]; unset($_SESSION["login-fail"]);} ?></h1>
+        </div>
+        <div class="row" style="text-align: center">
+          <input type="button" value="Rejestracja" onclick="window.location = '/register.php'"/>
+        </div>
+    </div>
   </body>
 </html>

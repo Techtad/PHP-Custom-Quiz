@@ -16,9 +16,18 @@ if(!$userdata = require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/userdata.php")) {
 </head>
 
 <body>
-    <h1>Zalogowano jako: <span id="username"><?php echo $userdata["username"]; ?></span></h1>
+    <header>
+        <h1>Testy ABCD</h1>
+        <nav>
+            <div class="menuBtn" id="btnMainPage" onclick="window.location = '/'">Strona główna</div>
+
+            <div class="menuBtn" id="btnLogOut" onclick="window.location = 'php/auth/logout.php'">Wyloguj</div>
+            <div class="menuBtn" id="btnChangePassword" onclick="window.location = 'changepassword.php'">Zmień hasło</div>
+            <div class="menuInfo" id="userInfo">Zalogowano jako: <span id="username-display"><?php echo $userdata["username"]; ?></div>
+        </nav>
+    </header>
+    
     <h2><?php echo (require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/isadmin.php")) ? "Jesteś administratorem. <a href='admin.php'>Do panelu</a>" : "Nie masz uprawnień administratora." ?></h2>
-    <input type="button" id="btnLogOut" value="Wyloguj" onclick="window.location = 'php/auth/logout.php'"/>
     <?php
     require_once $_SERVER["DOCUMENT_ROOT"] . "/php/settings.php";
     if(!$conn = db_connect()) die("Nie udało się połączyć z bazą danych");

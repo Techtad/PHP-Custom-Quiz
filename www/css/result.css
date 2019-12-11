@@ -5,3 +5,7 @@
 .wrong {
     background-color: red;
 }
+
+div h1 {
+    text-align: center;
+}
