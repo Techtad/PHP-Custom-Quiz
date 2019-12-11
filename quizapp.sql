@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 11 Gru 2019, 02:34
+-- Czas generowania: 11 Gru 2019, 12:21
 -- Wersja serwera: 10.4.8-MariaDB
--- Wersja PHP: 7.3.11
+-- Wersja PHP: 7.1.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -81,7 +81,13 @@ INSERT INTO `questions` (`id`, `quiz_id`, `question`, `answer_a`, `answer_b`, `a
 (42, 16, '12', 's', 'd', 's', 'w', 'B'),
 (43, 16, '13', 'q', 'ew', 'wa', 'a', 'D'),
 (44, 16, '14', 'weq', 'aawe', 'wqqa', 'asd', 'C'),
-(45, 16, 'Pytanie?', 'w', 'e', 'a', 'q', 'C');
+(45, 16, 'Pytanie?', 'w', 'e', 'a', 'q', 'C'),
+(46, 15, '100+1=?', '99', '100', '101', '102', 'C'),
+(47, 15, '-1+1=?', 'nieskończonośc', '0', '2', '1', 'B'),
+(48, 15, '3+4=?', '2', '1', '3', '7', 'D'),
+(49, 15, '1+2+3+4+5+6+7+8+9+10=?', '55', '100', '10', '54', 'A'),
+(50, 15, '4+4=?', '7', '8', '9', '10', 'B'),
+(51, 15, '9+9=?', '0', '-2', '18', '36', 'C');
 
 -- --------------------------------------------------------
 
@@ -171,7 +177,27 @@ INSERT INTO `scores` (`take_id`, `question_id`, `user`, `answer`, `correct`) VAL
 (5, 35, 'techtad', 'D', b'0'),
 (5, 44, 'techtad', 'D', b'0'),
 (5, 34, 'techtad', 'C', b'0'),
-(5, 42, 'techtad', 'A', b'0');
+(5, 42, 'techtad', 'A', b'0'),
+(6, 30, 'techtad', 'D', b'0'),
+(6, 34, 'techtad', 'A', b'0'),
+(6, 42, 'techtad', 'A', b'0'),
+(6, 35, 'techtad', 'B', b'0'),
+(6, 33, 'techtad', 'B', b'0'),
+(6, 45, 'techtad', 'A', b'0'),
+(6, 37, 'techtad', 'B', b'0'),
+(6, 38, 'techtad', 'B', b'0'),
+(6, 29, 'techtad', 'B', b'1'),
+(6, 39, 'techtad', 'A', b'0'),
+(7, 46, 'techtad', 'C', b'0'),
+(7, 27, 'techtad', 'D', b'1'),
+(7, 28, 'techtad', 'A', b'1'),
+(7, 26, 'techtad', 'C', b'1'),
+(7, 31, 'techtad', 'D', b'1'),
+(7, 49, 'techtad', 'A', b'1'),
+(7, 50, 'techtad', 'B', b'1'),
+(7, 48, 'techtad', 'D', b'1'),
+(7, 47, 'techtad', 'B', b'1'),
+(7, 51, 'techtad', 'C', b'1');
 
 -- --------------------------------------------------------
 
@@ -196,7 +222,9 @@ INSERT INTO `takes` (`id`, `quiz_id`, `user`, `correct`, `wrong`) VALUES
 (2, 16, 'techtad', 4, 6),
 (3, 16, 'techtad', 2, 8),
 (4, 16, 'admin', 3, 7),
-(5, 16, 'techtad', 2, 8);
+(5, 16, 'techtad', 2, 8),
+(6, 16, 'techtad', 1, 9),
+(7, 15, 'techtad', 9, 1);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -235,7 +263,7 @@ ALTER TABLE `takes`
 -- AUTO_INCREMENT dla tabeli `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT dla tabeli `quizzes`
@@ -247,7 +275,7 @@ ALTER TABLE `quizzes`
 -- AUTO_INCREMENT dla tabeli `takes`
 --
 ALTER TABLE `takes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
