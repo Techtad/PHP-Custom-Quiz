@@ -26,18 +26,15 @@ if(!$userdata = require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/userdata.php")) {
             <div class="menuInfo" id="userInfo">Zalogowano jako: <span id="username-display"><?php echo $userdata["username"]; ?></div>
         </nav>
     </header>
-    
-    <h2><?php echo (require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/isadmin.php")) ? "Jesteś administratorem. <a href='admin.php'>Do panelu</a>" : "Nie masz uprawnień administratora." ?></h2>
-    <?php
-    require_once $_SERVER["DOCUMENT_ROOT"] . "/php/settings.php";
-    if(!$conn = db_connect()) die("Nie udało się połączyć z bazą danych");
-    if(!$query = $conn->query("SELECT `id`, `name` FROM `quizzes`")) die($conn->error);
-    while($row = $query->fetch_assoc()) {
-        echo sprintf("<a href='/quiz.php?id=%d'>%s</a>", $row["id"], $row["name"]);
-    }
-    $query->close();
-    $conn->close();
-    ?>
+    <div style="text-align: center">
+        <?php if(require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/isadmin.php")) { ?>
+            <h2>Posiadasz uprawnienia administratora</h2><br>
+            <a href="admin.php">Przejdź do panelu administracyjnego</a><br><br>
+            <a href="stats.php">Przejrzyj statystyki</a>
+        <?php } else { ?>
+
+        <?php } ?>
+    </div>
 </body>
 
 </html>

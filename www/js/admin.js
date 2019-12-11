@@ -171,9 +171,24 @@ function onQuizEditValChanged(event) {
   if (rowChanged) {
     $(`#quiz_${quizId}_edit`).removeAttr("disabled");
     $(`#quiz_${quizId}_cancel`).removeAttr("disabled");
+    $("#quiz-table input")
+      .filter((i, e) => {
+        return (
+          e.id.split("_")[1] != event.target.id.split("_")[1] &&
+          !["delete", "select"].includes(e.id.split("_")[2])
+        );
+      })
+      .attr("disabled", true);
   } else {
     $(`#quiz_${quizId}_edit`).attr("disabled", true);
     $(`#quiz_${quizId}_cancel`).attr("disabled", true);
+    $("#quiz-table input")
+      .filter((i, e) => {
+        return !["edit", "cancel", "delete", "select"].includes(
+          e.id.split("_")[2]
+        );
+      })
+      .removeAttr("disabled");
   }
 }
 
@@ -189,8 +204,23 @@ function quizAddChanged(event) {
   }
   if (anySet) {
     $("#cancel_add_quiz").removeAttr("disabled");
+    $("#quiz-table input")
+      .filter((i, e) => {
+        return (
+          !["new", "add", "cancel"].includes(e.id.split("_")[0]) &&
+          !["delete", "select"].includes(e.id.split("_")[2])
+        );
+      })
+      .attr("disabled", true);
   } else {
     $("#cancel_add_quiz").attr("disabled", true);
+    $("#quiz-table input")
+      .filter((i, e) => {
+        return !["edit", "cancel", "delete", "select"].includes(
+          e.id.split("_")[2]
+        );
+      })
+      .removeAttr("disabled");
   }
 }
 
@@ -299,4 +329,20 @@ function deleteUser(event) {
       loadUserTable();
     }
   );
+}
+
+// Zakładki panelu
+
+function switchTab(toUsers) {
+  if (toUsers) {
+    $("#usertab").css("display", "block");
+    $("#datatab").css("display", "none");
+    $("#data-tab-btn").removeAttr("selected");
+    $("#user-tab-btn").attr("selected", true);
+  } else {
+    $("#datatab").css("display", "block");
+    $("#usertab").css("display", "none");
+    $("#user-tab-btn").removeAttr("selected");
+    $("#data-tab-btn").attr("selected", true);
+  }
 }

@@ -1,3 +1,38 @@
 .addition-row {
     background-color: wheat;
 }
+
+#datatab, #usertab {
+    float: left;
+    width: 80%;
+    text-align: center;
+}
+
+#tabnav {
+    width: 20%;
+    height: 100%;
+    float: left;
+    background-color: darkseagreen;
+}
+
+#tabs {
+    float: left;
+    text-align: center;
+}
+
+.tab-button {
+    text-align: center;
+    user-select: none;
+    background-color: dodgerblue;
+    height: 50px;
+    line-height: 50px;
+    font-weight: bold;
+}
+
+.tab-button:hover {
+    background-color: deepskyblue;
+}
+
+.tab-button[selected] {
+    background-color: azure;
+}
