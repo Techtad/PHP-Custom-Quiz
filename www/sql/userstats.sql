@@ -2,4 +2,4 @@ SELECT `user`, SUM(`correct`) as `right`, (COUNT(*) - SUM(`correct`)) as `wrong`
 FROM `scores`
 GROUP BY `user`
 ORDER BY `right` DESC
-LIMIT %d, 10;
+LIMIT 10 OFFSET %d;

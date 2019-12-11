@@ -1,18 +1,26 @@
 <?php
-    if(!$userdata = require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/userdata.php")) {header("Location: /"); return;}
+if (!$userdata = require($_SERVER["DOCUMENT_ROOT"] . "/php/auth/userdata.php")) {
+    header("Location: /");
+    return;
+}
 
-    function fileContent($path) {
-        $file = fopen($path, "r");
-        $content = fread($file, filesize($path));
-        fclose($file);
-        return $content;
-    }
+function fileContent($path)
+{
+    $file = fopen($path, "r");
+    $content = fread($file, filesize($path));
+    fclose($file);
+    return $content;
+}
 
-    require_once($_SERVER["DOCUMENT_ROOT"] . "/php/settings.php");
-    if(!$conn = db_connect()) die("Nie udało się połączyć z bazą danych");
+require_once($_SERVER["DOCUMENT_ROOT"] . "/php/settings.php");
+if (!$conn = db_connect()) die("Nie udało się połączyć z bazą danych");
+
+$questions_page = isset($_GET["qpage"]) ? $_GET["qpage"] - 1 : 0;
+$users_page = isset($_GET["upage"]) ? $_GET["upage"] - 1 : 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +29,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/stats.css">
 </head>
+
 <body>
     <header>
         <h1>Testy ABCD</h1>
@@ -45,11 +54,11 @@
                 <th>%</th>
             </tr>
             <?php
-                if(!$query = $conn->query(sprintf(fileContent($_SERVER["DOCUMENT_ROOT"] . "/sql/answerstats.sql"), 0))) die($conn->error);
-                $lp = 1;
-                while($row = $query->fetch_assoc()) {
-                    echo sprintf("<tr><td>%d</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>", $lp++, $row["quiz"], $row["question"], $row["right"], $row["wrong"], $row["percent"]);
-                }
+            if (!$query = $conn->query(sprintf(fileContent($_SERVER["DOCUMENT_ROOT"] . "/sql/answerstats.sql"), $questions_page * 10))) die($conn->error);
+            $lp = 1 + $questions_page * 10;
+            while ($row = $query->fetch_assoc()) {
+                echo sprintf("<tr><td>%d</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>", $lp++, $row["quiz"], $row["question"], $row["right"], $row["wrong"], $row["percent"]);
+            }
             ?>
         </table>
     </div>
@@ -64,13 +73,14 @@
                 <th>%</th>
             </tr>
             <?php
-                if(!$query = $conn->query(sprintf(fileContent($_SERVER["DOCUMENT_ROOT"] . "/sql/userstats.sql"), 0))) die($conn->error);
-                $lp = 1;
-                while($row = $query->fetch_assoc()) {
-                    echo sprintf("<tr><td>%d</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>", $lp++, $row["user"], $row["right"], $row["wrong"], $row["percent"]);
-                }
+            if (!$query = $conn->query(sprintf(fileContent($_SERVER["DOCUMENT_ROOT"] . "/sql/userstats.sql"), $users_page * 10))) die($conn->error);
+            $lp = 1 + $users_page * 10;
+            while ($row = $query->fetch_assoc()) {
+                echo sprintf("<tr><td>%d</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>", $lp++, $row["user"], $row["right"], $row["wrong"], $row["percent"]);
+            }
             ?>
         </table>
     </div>
 </body>
+
 </html>
