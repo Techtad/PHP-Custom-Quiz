@@ -59,6 +59,10 @@ $users_page = isset($_GET["upage"]) ? $_GET["upage"] - 1 : 0;
             while ($row = $query->fetch_assoc()) {
                 echo sprintf("<tr><td>%d</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>", $lp++, $row["quiz"], $row["question"], $row["right"], $row["wrong"], $row["percent"]);
             }
+            if (!$query = $conn->query("SELECT COUNT(*) as `count` FROM `questions`")) die($conn->error);
+            if (!$res = $query->fetch_assoc()) die($conn->error);
+            if ($questions_page > 0) echo ("<a href='stats.php?qpage=" . ($questions_page) .  "'>Poprzednia strona</a>");
+            if ($lp < $res["count"]) echo ("<a href='stats.php?qpage=" . ($questions_page + 2) .  "'>Następna strona</a>");
             ?>
         </table>
     </div>
@@ -78,6 +82,10 @@ $users_page = isset($_GET["upage"]) ? $_GET["upage"] - 1 : 0;
             while ($row = $query->fetch_assoc()) {
                 echo sprintf("<tr><td>%d</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>", $lp++, $row["user"], $row["right"], $row["wrong"], $row["percent"]);
             }
+            if (!$query = $conn->query("SELECT COUNT(*) as `count` FROM `accounts`")) die($conn->error);
+            if (!$res = $query->fetch_assoc()) die($conn->error);
+            if ($users_page > 0) echo ("<a href='stats.php?upage=" . ($users_page) .  "'>Poprzednia strona</a>");
+            if ($lp < $res["count"]) echo ("<a href='stats.php?qpage=" . ($users_page + 2) .  "'>Następna strona</a>");
             ?>
         </table>
     </div>
