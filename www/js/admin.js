@@ -1,4 +1,4 @@
-window.addEventListener("DOMContentLoaded", function(event) {
+window.addEventListener("DOMContentLoaded", function (event) {
   loadQuizTable();
   loadQuestionTable();
   loadUserTable();
@@ -6,7 +6,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
 
 function loadQuizTable() {
   let quizId = $("#quiz-table").attr("currentQuiz");
-  $.get("php/admin/quiztable.php?selected=" + quizId, function(data) {
+  $.get("php/admin/quiztable.php?selected=" + quizId, function (data) {
     $("#quiz-table").html(data);
   });
 }
@@ -14,14 +14,14 @@ function loadQuizTable() {
 function loadQuestionTable() {
   let quizId = $("#quiz-table").attr("currentQuiz");
   if (quizId) {
-    $.get("php/admin/questiontable.php?quiz_id=" + quizId, function(data) {
+    $.get("php/admin/questiontable.php?quiz_id=" + quizId, function (data) {
       $("#question-table").html(data);
     });
   }
 }
 
 function loadUserTable() {
-  $.get("php/admin/usertable.php", function(data) {
+  $.get("php/admin/usertable.php", function (data) {
     $("#user-table").html(data);
   });
 }
@@ -40,8 +40,9 @@ function addQuestion() {
       answer_d: $(`#new_answer_d`).val(),
       right_answer: $(`#new_right_answer`).val()
     },
-    function(data) {
+    function (data) {
       console.log("addquestion", data);
+      loadQuizTable();
       loadQuestionTable();
     }
   );
@@ -59,7 +60,7 @@ function editQuestion(questionId) {
       answer_d: $(`#${questionId}_answer_d`).val(),
       right_answer: $(`#${questionId}_right_answer`).val()
     },
-    function(data) {
+    function (data) {
       console.log("modifyquestion", questionId, data);
       loadQuestionTable();
     }
@@ -74,7 +75,7 @@ function deleteQuestion(questionId) {
     {
       question_id: questionId
     },
-    function(data) {
+    function (data) {
       console.log("deletequestion", questionId, data);
       loadQuestionTable();
     }
@@ -232,7 +233,7 @@ function editQuiz(id) {
       name: $(`#quiz_${id}_name`).val(),
       description: $(`#quiz_${id}_desc`).val()
     },
-    function(data) {
+    function (data) {
       console.log("modifyquiz", id, data);
       loadQuizTable();
     }
@@ -247,7 +248,7 @@ function deleteQuiz(id) {
     {
       quiz_id: id
     },
-    function(data) {
+    function (data) {
       console.log("deletequiz", id, data);
       loadQuizTable();
       if ($("#quiz-table").attr("currentQuiz") == id)
@@ -269,7 +270,7 @@ function addQuiz() {
       name: $("#new_quiz_name").val(),
       description: $(`#new_quiz_desc`).val()
     },
-    function(data) {
+    function (data) {
       console.log("addquiz", data);
       loadQuizTable();
     }
@@ -293,7 +294,7 @@ function changePassword(event) {
       username: username,
       new_password: $(`#${username}_newpassword`).val()
     },
-    function(data) {
+    function (data) {
       console.log("changepassword", username, data);
       loadUserTable();
     }
@@ -307,7 +308,7 @@ function toggleAdmin(event) {
     {
       username: username
     },
-    function(data) {
+    function (data) {
       console.log("toggleadmin", username, data);
       loadUserTable();
     }
@@ -324,7 +325,7 @@ function deleteUser(event) {
     {
       username: username
     },
-    function(data) {
+    function (data) {
       console.log("deleteuser", username, data);
       loadUserTable();
     }

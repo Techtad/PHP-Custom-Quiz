@@ -35,4 +35,7 @@
 
 .tab-button[selected] {
     background-color: azure;
+    border-left: 2px inset dodgerblue;
+    border-top: 2px inset dodgerblue;
+    border-bottom: 2px inset dodgerblue;
 }
